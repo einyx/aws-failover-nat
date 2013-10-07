@@ -1,0 +1,30 @@
+#!upstart
+# Ubuntu upstart file at /etc/init/yourservice.conf
+description "Hailo-nat start/stop script"
+
+start on startup
+stop on shutdown
+
+
+pre-start script
+    set -x
+    exec 2>>/var/log/myjob.log
+    exec echo 1 > /proc/sys/net/ipv4/ip_forward
+end script
+
+respawn
+respawn limit 15 5
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+script
+    set -x
+    exec 2>>/var/log/hailo-nat.log
+    /sbin/iptables -t nat -A POSTROUTING -s "$(ip route | grep $(facter network_eth0) |awk '{print $1}')" -j MASQUERADE &
+    exec nc -l 8080
+end script
+
+pre-stop script
+    iptables -F -t nat
+end script
