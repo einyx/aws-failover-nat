@@ -9,9 +9,9 @@ fi
 # NAT instance variables
 # Other instance's IP to ping and route to grab if other node goes down
 # Epialloc to move (aka our public ip adress VIP)
-EIP_ALLOC=eipalloc-ffa01997
-NAT_ID=i-7c799b36
-NAT_RT_ID=rtb-dba31ab3
+EIP_ALLOC=
+NAT_ID=
+NAT_RT_ID=
 # Region
 EC2_URL=https://ec2.eu-west-1.amazonaws.com
 # Health Check variables
