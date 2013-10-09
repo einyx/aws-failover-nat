@@ -1,12 +1,8 @@
-!/bin/sh
+#!/bin/sh
 if [ `id | cut -d= -f3 | cut -d\( -f1` = 0 ]; then
-    echo
     echo "[i] -- Okay, you are root and can run this script"
-    echo
 else
-    echo
     echo "[i] -- Sorry, you are NOT root."
-    echo
 fi
 
 ################################
@@ -72,8 +68,8 @@ while [ . ]; do
                 echo `date` "[i] -- Other NAT instance $NAT_STATE, attempting to stop"
                 #/usr/bin/ec2-stop-instances $NAT_ID -U $EC2_URL
                 /usr/bin/ec2-associate-address -i $INSTANCE_ID -p $IP_eth0_1 -a $EIP_ALLOC --region eu-west-1 --allow-reassociation
-                sudo iptables -t nat -I POSTROUTING -s $IP_eth0 -p tcp -j SNAT --to $IP_eth0_1
-                sudo iptables -t nat -I POSTROUTING -s 0.0.0.0/0 -p tcp -j SNAT --to $IP_eth0_1
+                /sbin/iptables -t nat -I POSTROUTING -s $IP_eth0 -p tcp -j SNAT --to $IP_eth0_1
+                /sbin/iptables -t nat -I POSTROUTING -s 0.0.0.0/0 -p tcp -j SNAT --to $IP_eth0_1
                 STOPPING_NAT=1
             fi
             sleep $Wait_for_Instance_Stop
